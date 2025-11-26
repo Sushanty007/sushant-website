@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sushant Kumar</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sushant Portfolio</title>
+    <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
 
-    <!-- Hamburger Menu -->
+<header>
     <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <h1>Sushant Portfolio</h1>
+    <button class="admin-btn" onclick="openAdmin()">Admin</button>
+</header>
 
-    <!-- Side Menu Panel -->
-    <nav id="sideMenu" class="side-menu">
-        <a href="#about">About</a>
-        <a href="#likes">Likes</a>
-        <a href="#ambitions">Ambitions</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-        <hr>
-        <a href="admin/admin.html" class="admin-link">Admin Login</a>
-    </nav>
+<nav id="sideMenu" class="side-menu">
+    <a href="#about">About</a>
+    <a href="#likes">Likes</a>
+    <a href="#ambitions">Ambitions</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</nav>
 
-    <!-- Main Content -->
-    <section id="about" class="section-block"></section>
-    <section id="likes" class="section-block"></section>
-    <section id="ambitions" class="section-block"></section>
-    <section id="projects" class="section-block"></section>
-    <section id="contact" class="section-block"></section>
+<main>
+    <section id="about" class="content-section"></section>
+    <section id="likes" class="content-section"></section>
+    <section id="ambitions" class="content-section"></section>
+    <section id="projects" class="content-section"></section>
+    <section id="contact" class="content-section"></section>
+</main>
 
-    <script src="assets/js/main.js"></script>
-
+<script src="./main.js"></script>
 </body>
 </html>
