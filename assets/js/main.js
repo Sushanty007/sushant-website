@@ -6,7 +6,7 @@ function toggleMenu() {
 function openAdmin() {
     const pin = prompt("Enter Admin PIN:");
     if (pin === "1234") {
-        window.location.href = "admin.html";
+        window.location.href = "admin/admin.html";
     } else {
         alert("Incorrect PIN");
     }
