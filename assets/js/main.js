@@ -14,7 +14,7 @@ function openAdmin() {
 
 async function loadContent() {
     try {
-        const response = await fetch("./content.json");
+        const response = await fetch("assets/data/content.json")
         const data = await response.json();
 
         Object.keys(data).forEach(section => {
