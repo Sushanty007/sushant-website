@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8fdff;
+  color: #222;
+  scroll-behavior: smooth;
+}
+
+/* Hamburger icon */
+.hamburger {
+  font-size: 28px;
+  position: fixed;
+  top: 12px;
+  left: 15px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Side Menu */
+.side-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  background: white;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.4s;
+  box-shadow: 5px 0 10px rgba(0,0,0,0.1);
+}
+
+.side-menu a {
+  padding: 12px 20px;
+  display: block;
+  text-decoration: none;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  color: #222;
+}
+.side-menu a:hover {
+  background: #e6f5ff;
+}
+
+.section-block {
+  min-height: 100vh;
+  padding: 70px 30px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.admin-link {
+  color: #007bff;
+  font-weight: bold;
+}
