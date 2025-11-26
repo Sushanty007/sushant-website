@@ -1,54 +1,67 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f8fdff;
-  color: #222;
-  scroll-behavior: smooth;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #222;
+    scroll-behavior: smooth;
 }
 
-/* Hamburger icon */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #007BFF;
+    color: #fff;
+}
+
 .hamburger {
-  font-size: 28px;
-  position: fixed;
-  top: 12px;
-  left: 15px;
-  cursor: pointer;
-  z-index: 1000;
+    font-size: 24px;
+    cursor: pointer;
 }
 
-/* Side Menu */
+.admin-btn {
+    background: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
 .side-menu {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  background: white;
-  top: 0;
-  left: 0;
-  overflow-x: hidden;
-  padding-top: 60px;
-  transition: 0.4s;
-  box-shadow: 5px 0 10px rgba(0,0,0,0.1);
+    width: 0;
+    height: 100%;
+    background: #005FCC;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 1000;
 }
 
 .side-menu a {
-  padding: 12px 20px;
-  display: block;
-  text-decoration: none;
-  font-size: 18px;
-  border-bottom: 1px solid #eee;
-  color: #222;
+    display: block;
+    padding: 14px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #0047A3;
 }
+
 .side-menu a:hover {
-  background: #e6f5ff;
+    background: #003D8E;
 }
 
-.section-block {
-  min-height: 100vh;
-  padding: 70px 30px;
-  border-bottom: 1px solid #eaeaea;
+main {
+    padding: 20px;
 }
 
-.admin-link {
-  color: #007bff;
-  font-weight: bold;
+.content-section {
+    margin: 40px 0;
+    padding: 20px;
+    border-radius: 8px;
+    background: #F3F8FF;
+    border: 1px solid #D0E4FF;
 }
