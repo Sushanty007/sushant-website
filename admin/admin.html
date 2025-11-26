@@ -1,12 +1,277 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sushant Admin — Manage Site Content</title>
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --accent:#2ea8f6;
+      --muted:#6b7280;
+      --shadow:0 8px 24px rgba(20,20,40,0.06);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:var(--accent);text-decoration:none}
+
+    .container{
+      max-width:900px;
+      margin:32px auto;
+      padding:20px;
+    }
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .logo{
+      width:40px;height:40px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#60c2ff);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-weight:800;font-size:18px;
+      box-shadow:var(--shadow);
+    }
+    .pill{
+      padding:4px 10px;
+      border-radius:999px;
+      background:#e0f2ff;
+      font-size:12px;
+      color:var(--accent);
+      font-weight:600;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .small{font-size:13px;color:var(--muted)}
+
+    .center{
+      max-width:520px;
+      margin:40px auto;
+    }
+
+    input,textarea{
+      width:100%;
+      padding:9px 10px;
+      border-radius:8px;
+      border:1px solid #dbe3f0;
+      font-family:inherit;
+      font-size:14px;
+    }
+    textarea{resize:vertical;min-height:70px}
+    label{font-size:13px;font-weight:600;color:#111827}
+
+    .field{margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      padding:9px 14px;
+      border-radius:10px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(46,168,246,0.18);
+    }
+    .btn-secondary{
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-row{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+
+    .status{
+      margin-top:8px;
+      font-size:13px;
+    }
+    .status.ok{color:#16a34a}
+    .status.err{color:#dc2626}
+
+    @media (max-width:600px){
+      .center{margin:20px auto}
+      header{flex-direction:column;gap:6px;align-items:flex-start}
+    }
+  </style>
 </head>
 <body>
-<h2>Admin Page (Coming Soon 🚧)</h2>
-<p>Here you will modify JSON & website content visually.</p>
-<a href="index.html">⬅ Go Back</a>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">SK</div>
+        <div>
+          <div style="font-weight:800;font-size:15px">Sushant Admin</div>
+          <div class="small">Private area to tweak your site content</div>
+        </div>
+      </div>
+      <a href="index.html" class="pill">← Back to website</a>
+    </header>
+
+    <!-- LOGIN CARD -->
+    <div id="loginCard" class="card center">
+      <h2 style="margin:0 0 8px;font-size:18px;">Admin Login</h2>
+      <p class="small">Enter your PIN to unlock the content editor. Don’t share this with anyone.</p>
+      <div class="field" style="margin-top:12px;">
+        <label for="pin">PIN</label>
+        <input id="pin" type="password" placeholder="e.g. 1234" />
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="handleLogin()">Login</button>
+        <button class="btn-secondary" type="button" onclick="document.getElementById('pin').value=''">Clear</button>
+      </div>
+      <div id="loginStatus" class="status"></div>
+    </div>
+
+    <!-- EDITOR CARD -->
+    <div id="editorCard" class="card center" style="display:none;">
+      <h2 style="margin:0 0 8px;font-size:18px;">Site Content Editor</h2>
+      <p class="small">Changes are stored in <strong>this browser only</strong> using localStorage. Refresh your main site to see updates.</p>
+
+      <div class="field" style="margin-top:12px;">
+        <label for="aboutField">About Me (paragraph)</label>
+        <textarea id="aboutField" placeholder="Write a short intro about yourself..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="likesField">Likes (one per line)</label>
+        <textarea id="likesField" placeholder="Bike riding&#10;Good food&#10;Learning web dev"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="ambitionsField">Ambitions (one per line)</label>
+        <textarea id="ambitionsField" placeholder="Master JavaScript&#10;Start my own startup"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="projectsField">Projects (one per line)</label>
+        <textarea id="projectsField" placeholder="Portfolio website&#10;Home automation"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="emailField">Contact Email</label>
+        <input id="emailField" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" type="button" onclick="saveContent()">Save Content</button>
+        <button class="btn-secondary" type="button" onclick="resetLocal()">Reset to Default</button>
+      </div>
+      <div id="saveStatus" class="status"></div>
+    </div>
+  </div>
+
+  <script>
+    // Simple PIN protection (only basic, not real security)
+    const ADMIN_PIN = "1234";
+
+    function handleLogin(){
+      const pinInput = document.getElementById('pin');
+      const status = document.getElementById('loginStatus');
+      if(pinInput.value === ADMIN_PIN){
+        status.textContent = "Logged in successfully.";
+        status.className = "status ok";
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('editorCard').style.display = 'block';
+        loadExistingContent();
+      } else {
+        status.textContent = "Incorrect PIN. Try again.";
+        status.className = "status err";
+      }
+    }
+
+    function loadExistingContent(){
+      // Try read from localStorage
+      const stored = localStorage.getItem('siteContent');
+      let data;
+      if(stored){
+        data = JSON.parse(stored);
+      } else {
+        // default initial values (can sync with index.html text)
+        data = {
+          about: "Hi — I’m Sushant Kumar. I grew up in Bihar and now live in Pune. I enjoy building small automations, learning web development, and planning long bike trips.",
+          likes: [
+            "Biking & road trips",
+            "Good food & local cuisine",
+            "Learning web development",
+            "IoT & small automation",
+            "Helping others with tech"
+          ],
+          ambitions: [
+            "Master JavaScript & build web apps",
+            "Launch a small tech side business",
+            "Complete Ladakh bike trip",
+            "Build a comfortable life for family"
+          ],
+          projects: [
+            "Chrome extension idea for Google Sheets + Salesforce integration",
+            "Home relay control with Adafruit IO + ESP32",
+            "Small automation scripts to reduce manual data entry"
+          ],
+          contact: { email: "sushant@example.com" }
+        };
+      }
+
+      document.getElementById('aboutField').value = data.about || "";
+      document.getElementById('likesField').value = (data.likes || []).join("\n");
+      document.getElementById('ambitionsField').value = (data.ambitions || []).join("\n");
+      document.getElementById('projectsField').value = (data.projects || []).join("\n");
+      document.getElementById('emailField').value = (data.contact && data.contact.email) || "";
+    }
+
+    function saveContent(){
+      const about = document.getElementById('aboutField').value.trim();
+      const likes = document.getElementById('likesField').value.split("\n").map(x=>x.trim()).filter(x=>x);
+      const ambitions = document.getElementById('ambitionsField').value.split("\n").map(x=>x.trim()).filter(x=>x);
+      const projects = document.getElementById('projectsField').value.split("\n").map(x=>x.trim()).filter(x=>x);
+      const email = document.getElementById('emailField').value.trim();
+
+      const newData = {
+        about,
+        likes,
+        ambitions,
+        projects,
+        contact:{email}
+      };
+
+      localStorage.setItem('siteContent', JSON.stringify(newData));
+      const status = document.getElementById('saveStatus');
+      status.textContent = "Saved in this browser. Refresh your main site to see changes.";
+      status.className = "status ok";
+    }
+
+    function resetLocal(){
+      localStorage.removeItem('siteContent');
+      loadExistingContent();
+      const status = document.getElementById('saveStatus');
+      status.textContent = "Local changes cleared. Loaded default values again.";
+      status.className = "status";
+    }
+  </script>
 </body>
 </html>
