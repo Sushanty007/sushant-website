@@ -19,21 +19,19 @@
     html,body{height:100%}
     body{
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      margin:0;
-      background:var(--bg);
-      color:#0f172a;
-      line-height:1.5;
+      margin:0;background:var(--bg);color:#0f172a;line-height:1.5;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
     a{color:var(--accent);text-decoration:none}
 
-    /* Container: wide but centered */
+    /* Container */
     .container{
-      max-width:1200px;
-      margin:0 auto;
-      padding:24px 24px 40px;
-    }
+  width:100%;
+  max-width:100%;
+  margin:0;
+  padding:0;
+}
 
     /* Header */
     header{
@@ -45,61 +43,70 @@
       z-index:10;
     }
     .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:56px;height:56px;border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#60c2ff);
-      display:flex;align-items:center;justify-content:center;
-      color:white;font-weight:700;box-shadow:var(--shadow)
-    }
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60c2ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--shadow)}
     .nav{display:flex;gap:18px;align-items:center}
     .nav a{font-weight:600;color:#0f172a;opacity:0.85}
-    .btn{
-      background:var(--accent);color:white;
-      padding:10px 14px;border-radius:10px;
-      font-weight:700;box-shadow:0 6px 18px rgba(46,168,246,0.18)
-    }
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;font-weight:700;box-shadow:0 6px 18px rgba(46,168,246,0.18)}
 
     /* Hamburger for side menu */
+
     .hamburger{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      position:absolute;
-      left:8px;
-      top:50%;
-      transform:translateY(-50%);
-      font-size:22px;
-      cursor:pointer;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.08);
-      background:rgba(255,255,255,0.9);
-      z-index:20; /* stays above header content */
-    }
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,0.08);
+  background:rgba(255,255,255,0.9);
+  margin-right:0px; /* spacing before SK logo */
+}
+
+
 
     /* Side panel */
-    .side-panel-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,0.35);
-      display:none;
-      z-index:50;
-    }
-    .side-panel{
-      position:fixed;
-      top:0;
-      left:0;
-      height:100%;
-      width:240px;
-      background:#ffffff;
-      box-shadow:0 0 25px rgba(15,23,42,0.2);
-      transform:translateX(-100%);
-      transition:transform 0.25s ease-out;
-      padding:16px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+   /* Backdrop (no display:none — instead use pointer-events) */
+.side-panel-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.35);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.18s ease-in-out;
+  z-index:50;
+}
+
+/* Panel closed by default */
+.side-panel{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:240px;
+  background:#ffffff;
+  box-shadow:0 0 25px rgba(15,23,42,0.2);
+  transform:translateX(-100%);
+  transition: transform 0.18s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding:16px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:60;
+}
+
+/* When panel is open — backdrop becomes active */
+.side-panel-open .side-panel-backdrop{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* Slide-in activated */
+.side-panel-open .side-panel{
+  transform:translateX(0);
+}
+
+
     .side-panel-header{
       display:flex;
       justify-content:space-between;
@@ -142,128 +149,84 @@
     }
 
     /* Hero */
-    .hero{
-      display:flex;gap:28px;align-items:center;
-      padding:28px;border-radius:var(--radius);
-      background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.9));
-      box-shadow:var(--shadow)
-    }
+    .hero{display:flex;gap:28px;align-items:center;padding:28px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.9));box-shadow:var(--shadow)}
     .hero-left{flex:1}
     .hero-title{font-size:28px;margin:0 0 8px}
     .hero-sub{color:var(--muted);margin-bottom:18px}
     .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-    .profile-card{
-      width:160px;flex-shrink:0;border-radius:16px;
-      overflow:hidden;box-shadow:var(--shadow);background:var(--card)
-    }
-    .profile-photo{
-      width:100%;height:100%;display:block;
-      background:linear-gradient(135deg,#c9f6ff,#eaf8ff);
-      padding:22px;display:flex;align-items:center;justify-content:center
-    }
+    .profile-card{width:160px;flex-shrink:0;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:var(--card)}
+    .profile-photo{width:100%;height:100%;display:block;background:linear-gradient(135deg,#c9f6ff,#eaf8ff);padding:22px;display:flex;align-items:center;justify-content:center}
     .profile-photo img{width:100%;height:100%;object-fit:cover}
-    .tag{
-      display:inline-block;padding:6px 10px;border-radius:999px;
-      background:rgba(46,168,246,0.12);color:var(--accent);font-weight:700
-    }
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(46,168,246,0.12);color:var(--accent);font-weight:700}
 
     /* Sections */
     section{margin-top:28px}
-    .card{
-      background:var(--card);
-      padding:18px;
-      border-radius:12px;
-      box-shadow:var(--shadow)
-    }
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
     h2{margin:0 0 12px;font-size:18px}
     p.lead{color:var(--muted);margin:0 0 12px}
 
     /* About grid */
-    .two-col{
-      display:grid;
-      grid-template-columns:1fr 320px;
-      gap:18px;
-      align-items:start
-    }
+    .two-col{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
     .info-list{display:flex;flex-direction:column;gap:8px}
-    .pill{
-      display:inline-block;padding:8px 12px;border-radius:999px;
-      background:#eef8ff;border:1px solid rgba(46,168,246,0.08);
-      font-weight:600
-    }
+    .pill{display:inline-block;padding:8px 12px;border-radius:999px;background:#eef8ff;border:1px solid rgba(46,168,246,0.08);font-weight:600}
 
     /* Likes grid */
     .likes{display:flex;gap:12px;flex-wrap:wrap}
-    .like-item{
-      background:#fbfdff;border:1px solid #eef6ff;
-      padding:10px 12px;border-radius:10px;font-weight:600
-    }
-    .dislike{
-      background:#fff7f7;border:1px solid #ffecec;
-      padding:10px 12px;border-radius:10px
-    }
+    .like-item{background:#fbfdff;border:1px solid #eef6ff;padding:10px 12px;border-radius:10px;font-weight:600}
+    .dislike{background:#fff7f7;border:1px solid #ffecec;padding:10px 12px;border-radius:10px}
 
     /* Timeline */
     .timeline{display:flex;flex-direction:column;gap:12px}
     .event{display:flex;gap:12px;align-items:flex-start}
-    .dot{
-      width:12px;height:12px;border-radius:999px;
-      background:var(--accent);margin-top:6px
-    }
-    .event-card{
-      background:linear-gradient(180deg,#fff,#fcfeff);
-      padding:12px;border-radius:10px;
-      border:1px solid rgba(15,23,42,0.03)
-    }
+    .dot{width:12px;height:12px;border-radius:999px;background:var(--accent);margin-top:6px}
+    .event-card{background:linear-gradient(180deg,#fff,#fcfeff);padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.03)}
 
     /* Skills grid */
     .skills{display:flex;gap:10px;flex-wrap:wrap}
-    .skill{
-      padding:8px 12px;border-radius:8px;
-      border:1px dashed rgba(15,23,42,0.06);font-weight:600
-    }
+    .skill{padding:8px 12px;border-radius:8px;border:1px dashed rgba(15,23,42,0.06);font-weight:600}
 
     /* Gallery */
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-      gap:10px
-    }
-    .thumb{
-      height:110px;border-radius:10px;overflow:hidden;
-      background:linear-gradient(135deg,#e9f8ff,#f6fbff);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:700;color:var(--muted)
-    }
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .thumb{height:110px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#e9f8ff,#f6fbff);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted)}
 
     /* Contact */
-    .contact-grid{
-      display:grid;
-      grid-template-columns:1fr 320px;
-      gap:18px
-    }
-    input,textarea{
-      width:100%;padding:10px;border-radius:8px;
-      border:1px solid #e6eef8;background:transparent
-    }
+    .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8;background:transparent}
     .socials{display:flex;gap:12px}
     .small{font-size:13px;color:var(--muted)}
 
-    footer{
-      margin-top:32px;
-      text-align:center;
-      color:var(--muted);
-      font-size:14px
-    }
+    footer{margin-top:32px;text-align:center;color:var(--muted);font-size:14px}
 
     /* Responsive */
-    @media (max-width:880px){
+@media (max-width:880px){
       .two-col,.contact-grid{grid-template-columns:1fr}
       .profile-card{width:120px}
       .hero{flex-direction:column}
-      header{padding:12px 32px 12px 40px;}
-      .nav{display:none} /* hide top nav on small screens, keep hamburger */
-    }
+      header{
+        padding:12px 16px !important;   /* LEFT SPACE FIX */
+      }
+      .nav{display:none}
+
+      .hamburger{
+        margin-left:0 !important;       /* HAMBURGER LEFT ALIGN FIX */
+      }
+
+      .brand{
+        gap:10px !important;            /* HAMBURGER <-> SK LOGO GAP FIX */
+      }
+}
+
+/* MINI ROCKET */
+#mini-rocket {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: transform 1.5s linear;
+}
+
   </style>
 </head>
 <body>
@@ -279,28 +242,32 @@
       <a class="side-link" href="#goals" onclick="closeSidePanel()">Ambitions</a>
       <a class="side-link" href="#projects" onclick="closeSidePanel()">Projects</a>
       <a class="side-link" href="#contact" onclick="closeSidePanel()">Contact</a>
-      <a class="side-link admin" href="admin/admin.html">Admin (future)</a>
+      <!-- Admin link can point to admin.html (you create later) -->
+      <a class="side-link admin" href="admin.html">Admin (future)</a>
     </div>
   </div>
 
   <div class="container">
     <header>
-      <span class="hamburger" onclick="openSidePanel()">☰</span>
-      <div class="brand">
-        <div class="logo">SK</div>
-        <div>
-          <div style="font-weight:800">Sushant Kumar</div>
-          <div style="font-size:12px;color:var(--muted)">Explorer • Learner • Dreamer</div>
-        </div>
-      </div>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#likes">Likes</a>
-        <a href="#goals">Ambitions</a>
-        <a href="#projects">Projects</a>
-        <a class="btn" href="#contact">Contact</a>
-      </nav>
-    </header>
+  <div class="brand">
+    <span class="hamburger" onclick="openSidePanel()">☰</span>
+    
+    <div class="logo">SK</div>
+    <div>
+      <div style="font-weight:800">Sushant Kumar</div>
+      <div style="font-size:12px;color:var(--muted)">Explorer • Learner • Dreamer</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <a href="#about">About</a>
+    <a href="#likes">Likes</a>
+    <a href="#goals">Ambitions</a>
+    <a href="#projects">Projects</a>
+    <a class="btn" href="#contact">Contact</a>
+  </nav>
+</header>
+
 
     <main>
       <!-- HERO -->
@@ -316,6 +283,7 @@
         </div>
         <div class="profile-card">
           <div class="profile-photo">
+            <!-- Placeholder: replace src with your photo -->
             <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' fill='%23c9f6ff'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='28' fill='%230f172a'>Sushant</text></svg>" alt="Sushant Kumar">
           </div>
         </div>
@@ -446,18 +414,14 @@
         </div>
       </section>
 
-      <!-- BLOG / NOTES -->
+      <!-- BLOG / NOTES (optional) -->
       <section id="notes">
         <div class="card">
           <h2>Notes & Thoughts</h2>
           <p class="small">Short posts about tech, travel, or local Bihar culture. (You can add a simple CMS later.)</p>
           <div style="margin-top:10px;display:flex;gap:12px;flex-direction:column">
-            <div style="padding:12px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff">
-              Why I want to ride to Ladakh — quick notes...
-            </div>
-            <div style="padding:12px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff">
-              Automations that saved my day — mini case study...
-            </div>
+            <div style="padding:12px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff">Why I want to ride to Ladakh — quick notes...</div>
+            <div style="padding:12px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff">Automations that saved my day — mini case study...</div>
           </div>
         </div>
       </section>
@@ -528,7 +492,7 @@
           const el=document.querySelector(href);
           if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
         }
-      });
+      })
     });
 
     // Contact form (client-side only)
@@ -552,5 +516,7 @@
       document.getElementById('formStatus').textContent='';
     }
   </script>
+  <!-- Mini Rocket -->
+<div id="mini-rocket">🚀</div>
 </body>
 </html>
