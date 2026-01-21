@@ -1,133 +1,82 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sushant Kumar — Explorer • Learner • Dreamer</title>
-  <meta name="description" content="Personal webpage for Sushant Kumar — tech learner, bike rider, travel lover." />
+// ===== Side Menu Toggle =====
+function toggleMenu() {
+    const menu = document.getElementById("sideMenu");
+    menu.style.width = menu.style.width === "250px" ? "0" : "250px";
+}
 
-  <!-- EXTERNAL CSS -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+// ===== Admin Access =====
+function openAdmin() {
+    const pin = prompt("Enter Admin PIN:");
+    if (pin === "1234") {
+        window.location.href = "admin/admin.html";
+    } else {
+        alert("Incorrect PIN");
+    }
+}
 
-  <!-- ALL YOUR EXISTING STYLES (UNCHANGED) -->
-  <style>
-    /* ⚠️ EXACT SAME CSS AS YOU SHARED — UNTOUCHED */
-    :root{--bg:#f8fafc;--card:#ffffff;--accent:#2ea8f6;--muted:#6b7280;--shadow:0 8px 24px rgba(20,20,40,0.06);--radius:14px}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:#0f172a}
-    a{color:var(--accent);text-decoration:none}
-    /* (rest of your CSS stays exactly same — not repeated here for brevity) */
-  </style>
-</head>
+// ===== Load Dynamic Content =====
+async function loadContent() {
+    try {
+        const response = await fetch("assets/data/content.json");
+        const data = await response.json();
 
-<body>
+        Object.keys(data).forEach(section => {
+            const element = document.getElementById(section);
+            if (element) {
+                element.innerHTML = `<h2>${section.toUpperCase()}</h2><p>${data[section]}</p>`;
+            }
+        });
+    } catch (error) {
+        console.error("Error loading content:", error);
+    }
+}
 
-<!-- SIDE PANEL -->
-<div class="side-panel-backdrop" id="backdrop" onclick="closeSidePanel()">
-  <div class="side-panel" onclick="event.stopPropagation()">
-    <div class="side-panel-header">
-      <div class="side-panel-title">Menu</div>
-      <button class="side-close" onclick="closeSidePanel()">×</button>
-    </div>
-    <a class="side-link" href="#about" onclick="closeSidePanel()">About</a>
-    <a class="side-link" href="#likes" onclick="closeSidePanel()">Likes</a>
-    <a class="side-link" href="#goals" onclick="closeSidePanel()">Ambitions</a>
-    <a class="side-link" href="#projects" onclick="closeSidePanel()">Projects</a>
-    <a class="side-link" href="#contact" onclick="closeSidePanel()">Contact</a>
-    <a class="side-link admin" href="admin/admin.html">Admin (future)</a>
-  </div>
-</div>
+document.addEventListener("DOMContentLoaded", loadContent);
 
-<div class="container">
+// ==================================================
+// ===== Contact Form → Google Sheet Integration =====
+// ==================================================
 
-<header>
-  <div class="brand">
-    <span class="hamburger" onclick="openSidePanel()">☰</span>
-    <div class="logo">SK</div>
-    <div>
-      <div style="font-weight:800">Sushant Kumar</div>
-      <div style="font-size:12px;color:var(--muted)">Explorer • Learner • Dreamer</div>
-    </div>
-  </div>
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwSKt-XFrovpj7R2tyDSyk3dzjZX8JvPabc0SHYPVpbTrremlhozbVCtbf964fn-udFpw/exec";
 
-  <nav class="nav">
-    <a href="#about">About</a>
-    <a href="#likes">Likes</a>
-    <a href="#goals">Ambitions</a>
-    <a href="#projects">Projects</a>
-    <a class="btn" href="#contact">Contact</a>
-  </nav>
-</header>
+function handleSubmit(event) {
+    event.preventDefault();
 
-<main>
+    const status = document.getElementById("formStatus");
+    status.textContent = "Sending message...";
 
-<!-- HERO, ABOUT, LIKES, GOALS, PROJECTS, GALLERY, NOTES -->
-<!-- 🔒 ALL YOUR CONTENT IS 100% UNCHANGED -->
-<!-- (Keeping same structure & text as you posted) -->
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+    };
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="card contact-grid">
-    <div>
-      <h2>Contact Me</h2>
-      <p class="small">Want to work together or say hi? Drop a message — I usually reply within a few days.</p>
-
-      <form id="contactForm"
-            onsubmit="return handleSubmit(event)"
-            style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
-
-        <input id="name" placeholder="Your name" required />
-        <input id="email" type="email" placeholder="Email" required />
-        <textarea id="message" rows="4" placeholder="Message" required></textarea>
-
-        <div style="display:flex;gap:8px">
-          <button class="btn" type="submit">Send Message</button>
-          <button type="button"
-                  onclick="resetForm()"
-                  style="padding:10px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:transparent">
-            Reset
-          </button>
-        </div>
-
-        <div id="formStatus" class="small" style="margin-top:6px;color:var(--muted)"></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  Built with ❤️ by Sushant · Last updated: Nov 26, 2025
-</footer>
-
-</div>
-
-<!-- UI LOGIC (UNCHANGED) -->
-<script>
-  function openSidePanel(){
-    document.body.classList.add('side-panel-open');
-  }
-  function closeSidePanel(){
-    document.body.classList.remove('side-panel-open');
-  }
-
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click', e=>{
-      const href=a.getAttribute('href');
-      if(href.length>1){
-        e.preventDefault();
-        document.querySelector(href)?.scrollIntoView({behavior:'smooth'});
-      }
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(response => {
+        if (response.status === "success") {
+            status.textContent = "✅ Message sent successfully!";
+            document.getElementById("contactForm").reset();
+        } else {
+            status.textContent = "❌ Something went wrong. Try again.";
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        status.textContent = "⚠️ Error sending message.";
     });
-  });
-</script>
 
-<!-- ✅ MAIN JS (GOOGLE SHEET + OTHER FUNCTIONS) -->
-<script src="script.js" defer></script>
+    return false;
+}
 
-<!-- MINI ROCKET -->
-<div id="mini-rocket">🚀</div>
-
-</body>
-</html>
+function resetForm() {
+    document.getElementById("contactForm").reset();
+    document.getElementById("formStatus").textContent = "";
+}
